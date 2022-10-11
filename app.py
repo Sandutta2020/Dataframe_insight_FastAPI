@@ -26,10 +26,7 @@ async def get_webpage(request: Request):
 
 @app.post("/uploadfiles", response_class=HTMLResponse)
 async def uploadfiles(request: Request, files: UploadFile = Form(...)):
-    with open("destination.csv", "wb") as buffer:
-        shutil.copyfileobj(files.file, buffer)
-    df =pd.read_csv("destination.csv")
-        
+    df =pd.read_csv(files.file)        
     return templates.TemplateResponse(
         "form.html", {"request": request, "tab": df.head(5).to_html(border =1,index=False,show_dimensions =True),"Res" :files.filename}
     )
