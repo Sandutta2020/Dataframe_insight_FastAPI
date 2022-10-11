@@ -1,0 +1,39 @@
+h2 {
+    color: rgb(128, 87, 0);
+}
+#table_details
+{
+    border: 1px ;
+    color: blue;
+    font-size: 13px; 
+}
+p{
+    font-weight: bold;
+}
+
+select
+{
+    color: blueviolet;
+    font-size: 12px;
+    width: 250;
+}
+
+.KB{
+    background-color:rgb(240, 177, 52);
+}
+
+.UR{
+    background-color:rgb(145, 156, 216);
+}
+
+tr{
+    text-align: left;
+}
+
+#result_movies
+{
+    border: 1px solid white;
+    font-size: 14px;
+    color: rgb(53, 4, 34); 
+    width: 300;
+}

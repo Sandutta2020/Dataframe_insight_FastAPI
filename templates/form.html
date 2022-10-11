@@ -1,15 +1,38 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Data Insight</title>
+    <title>Data Insight of a CSV</title>
+    <link href="{{ url_for('static', path='/styles.css') }}" rel="stylesheet">
 </head>
 <body>
+    <center>
 <h2> Data Insight using fastapi </h3>
 <form action="/uploadfiles/" enctype="multipart/form-data" method="post">
 <input name="files" type="file" multiple>
 <input type="submit">
 </form>
-<p>Result: {{ Res }}</p>
+{% if col_list %}
+<p>File Selected : {{ Res }}</p>
 {{ tab |safe }}
+
+<form action="/uploadfiles" enctype="multipart/form-data" method="post">
+    <select name="column_select" id="column_select" required="required">
+        {% for x in col_list %}
+            {% if col_sel==x %}
+                <option value="{{x}}" selected>{{x}}</option>
+            {% endif %}
+                <option value="{{x}}">{{x}}</option>
+        {% endfor %}
+    </select>
+<input type="submit" value ="Select">
+</form>
+{% if col_sel ==" " %}
+<p> Please Select a Column for Further Analysis </p>
+{% else %}
+<p> You have selected  column {{col_sel}}</p>
+{% endif %}
+{{final_res}}
+{% endif %}
+</center>
 </body>
 </html>

@@ -23,12 +23,37 @@ async def get_webpage(request: Request):
         "form.html", {"request": request, "Res": "Please upload a csv file"}
     )
 
-
+g_df =pd.DataFrame()
+file_uploaded =""
 @app.post("/uploadfiles", response_class=HTMLResponse)
-async def uploadfiles(request: Request, files: UploadFile = Form(...)):
-    df =pd.read_csv(files.file)        
+async def uploadfiles(request: Request, files: UploadFile = Form("individual"), column_select: str = Form(" ")):
+    global g_df
+    global file_uploaded
+    if files =="individual":
+        f_df = g_df
+    else:
+        df =pd.read_csv(files.file)
+        g_df =df
+        f_df= g_df
+        file_uploaded = files.filename
+    lst = f_df.columns.to_list()
+    col_dtypes =[cols+'('+str(f_df.dtypes[cols]) +')' for cols in lst]
+    #f_df.columns=col_dtypes
+    if column_select !=" ":
+        unique_list =f_df[column_select].unique()
+    else:
+        unique_list=''
+        
     return templates.TemplateResponse(
-        "form.html", {"request": request, "tab": df.head(5).to_html(border =1,index=False,show_dimensions =True),"Res" :files.filename}
+        "form.html",
+        {
+            "request": request,
+            "tab": f_df.head(2).to_html(border=1, index=False,table_id="table_details"),
+            "Res": file_uploaded,
+            "col_list": lst,
+            "col_sel": column_select,
+            "final_res": unique_list
+        },
     )
 
 
