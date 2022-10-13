@@ -6,6 +6,7 @@ from fastapi.templating import Jinja2Templates
 import uvicorn
 import shutil
 import pandas as pd
+from data_insight import data_insight_df,get_figure
 
 # initialization
 app = FastAPI()
@@ -38,11 +39,14 @@ async def uploadfiles(request: Request, files: UploadFile = Form("individual"), 
         file_uploaded = files.filename
     lst = f_df.columns.to_list()
     col_dtypes =[cols+'('+str(f_df.dtypes[cols]) +')' for cols in lst]
+    data_insight_df
     #f_df.columns=col_dtypes
     if column_select !=" ":
-        unique_list =f_df[column_select].unique()
+        res_df =data_insight_df(f_df,column_select)
+        img_data =get_figure(f_df,column_select)
     else:
-        unique_list=''
+        res_df=""
+        img_data=""
         
     return templates.TemplateResponse(
         "form.html",
@@ -52,7 +56,8 @@ async def uploadfiles(request: Request, files: UploadFile = Form("individual"), 
             "Res": file_uploaded,
             "col_list": lst,
             "col_sel": column_select,
-            "final_res": unique_list
+            "final_res": res_df,
+            "image_plot":img_data
         },
     )
 
