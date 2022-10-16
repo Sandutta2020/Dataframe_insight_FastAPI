@@ -33,6 +33,9 @@ async def uploadfiles(request: Request, files: UploadFile = Form("individual"), 
     if files =="individual":
         f_df = g_df
     else:
+        if files.filename.split(".")[-1]!='csv':
+            return templates.TemplateResponse(
+        "form.html", {"request": request, "Res": "Please upload a only csv file"})
         df =pd.read_csv(files.file)
         g_df =df
         f_df= g_df
@@ -45,9 +48,9 @@ async def uploadfiles(request: Request, files: UploadFile = Form("individual"), 
         res_df =data_insight_df(f_df,column_select)
         img_data =get_figure(f_df,column_select)
     else:
-        res_df=""
+        res_df={}
         img_data=""
-        
+    print(res_df)   
     return templates.TemplateResponse(
         "form.html",
         {

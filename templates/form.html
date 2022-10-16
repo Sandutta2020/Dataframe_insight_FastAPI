@@ -35,7 +35,11 @@
 </div>
 {% endif %}
 <div>
-{{final_res}}
+    <table>
+    {% for key,value in final_res.items()%}
+        <tr> <td> {{key}}  </td><td class=KB> {{value}} </td></tr>
+        {% endfor %}
+    </table>
 </div>
 
 {% endif %}

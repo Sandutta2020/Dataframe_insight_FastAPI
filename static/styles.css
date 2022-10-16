@@ -20,6 +20,7 @@ select
 
 .KB{
     background-color:rgb(240, 177, 52);
+    width: 500px;
 }
 
 .UR{
@@ -36,4 +37,9 @@ tr{
     font-size: 14px;
     color: rgb(53, 4, 34); 
     width: 300;
+}
+td{
+    word-break: break-all;
+    border: 1px solid black; 
+
 }

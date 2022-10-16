@@ -2,24 +2,38 @@ import pandas as pd
 import base64
 from io import BytesIO
 from matplotlib.figure import Figure
+import numpy as np
 
 import matplotlib.pyplot as plt
 
 
 def data_insight_df(df, col):
-    print(df.dtypes)
+    #print(df.dtypes)
     # print(df[col].unique())
     # df=df.groupby(by=[col]).count()
     if df.dtypes[col] in ["int64", "float64"]:
-        df = df.corr()
-        df = df[col]
+        df_new = df.corr()
+        df_new = df_new[col]
+        dct =df_new.to_dict()
+        Mean_val =np.mean(df[col])
+        Median_val =np.median(df[col])
+        std= np.std(df[col])
+        final_result = {
+            "Mean Value":Mean_val,
+            "Median Value": Median_val,
+            "Standard Deviation": std,
+             "Correlation" : dct
+            }
     elif df.dtypes[col] in ["object"]:
         # df=df.groupby(by=[col]).count()
         total = len(df)
         total_unique_len = len(df[col].unique())
-        df = df[col].value_counts()
-        df["Total"] = total
-    return df
+        dct = df[col].fillna("NULL").value_counts().to_dict()
+        dct["Total"] = total
+        final_result = {
+            "Value Count:" : dct
+            }
+    return final_result
 
 
 def get_figure(df, col):
